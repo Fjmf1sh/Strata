@@ -1,54 +1,25 @@
-<picture>
-	<source media="(prefers-color-scheme: light)" srcset=".github/assets/monorepo_cover_light.png">
-	<img alt="Modrinth Monorepo Cover" src=".github/assets/monorepo_cover.png">
-</picture>
+# Strata
 
-![Issues](https://img.shields.io/github/issues-raw/Modrinth/code?color=c78aff&label=issues&style=for-the-badge)
-![Pull Requests](https://img.shields.io/github/issues-pr-raw/Modrinth/code?color=c78aff&label=PRs&style=for-the-badge)
-![Contributors](https://img.shields.io/github/contributors/Modrinth/code?color=c78aff&label=contributors&style=for-the-badge)
-![Lines of Code](https://img.shields.io/endpoint?url=https://loctopus.creeperkatze.dev/github/modrinth/code/badge?style=flat&logoColor=white&color=c78aff&style=for-the-badge)
-![Commit Activity](https://img.shields.io/github/commit-activity/m/Modrinth/code?color=c78aff&label=commits&style=for-the-badge)
-![Last Commit](https://img.shields.io/github/last-commit/Modrinth/code?color=c78aff&label=last%20commit&style=for-the-badge)
+Strata is a native Rust launcher project built from the Modrinth open-source app codebase. The custom desktop UI uses `winit` and `softbuffer`; the native backend reuses the Theseus Rust package in `packages/app-lib`.
 
-## Modrinth Monorepo
+The native UI is an active port and is not yet feature-complete or visually identical to Modrinth. The upstream frontend remains in this workspace as a behavior and design reference. See [NATIVE_MIGRATION_PLAN.md](NATIVE_MIGRATION_PLAN.md) for current coverage and remaining work.
 
-Welcome to the Modrinth Monorepo, the primary codebase for the Modrinth website, app, API and documentation. It contains ![Lines of code](https://img.shields.io/endpoint?url=https://loctopus.creeperkatze.dev/github/modrinth/code/badge%3Fformat%3Dhuman&logoColor=white&color=black&label=) lines of code and has ![Contributors](https://img.shields.io/github/contributors/Modrinth/code?color=black&label=) contributors!
+## Build
 
-If you're not a developer and you've stumbled upon this repository, you can access the web interface on the [Modrinth website](https://modrinth.com) and download the latest release of the app [here](https://modrinth.com/app).
+Install the Rust toolchain selected by `rust-toolchain.toml`.
 
-## Development
+```sh
+cargo build --release -p native-ui
+```
 
-This repository contains several projects. For detailed development information, please refer to their respective guides:
+Linux builds use Winit's X11 and Wayland backends. Install the X11 and Wayland development libraries listed in `.github/workflows/native-ui-cross-platform.yml` before building on Linux.
 
-| Project       | Directory              | Guide                                                     |
-| ------------- | ---------------------- | --------------------------------------------------------- |
-| Website       | `apps/frontend`        | [Guide](https://docs.modrinth.com/contributing/knossos/)  |
-| App           | `apps/app`             | [Guide](https://docs.modrinth.com/contributing/theseus/)  |
-| API           | `apps/labrinth`        | [Guide](https://docs.modrinth.com/contributing/labrinth/) |
-| Documentation | `apps/docs`            | [Guide](https://docs.modrinth.com/contributing/docs/)     |
+The requested 60 MiB process-memory ceiling is still a target and has not yet been verified with runtime profiling. Image caches and decode concurrency have explicit limits.
 
-Shared libraries live in `packages/`.
+## Horizon
 
-## Contributing
+Horizon support is planned as a separate game target. Java mod JARs are not compatible with Horizon; supported content needs to use Horizon's own import and mod workflows.
 
-We welcome contributions! Before submitting any contributions, please read our [contributing guidelines](https://docs.modrinth.com/contributing/getting-started/).
+## Licensing
 
-If you plan to fork this repository for your own purposes, please review our [copying guidelines](COPYING.md).
-
-## Sponsors
-
-[![CI powered by Namespace](https://namespace.so/oss/badge.svg)](https://namespace.so/github-actions/?utm_source=oss&utm_campaign=modrinth)
-
-Thanks to [Namespace](https://namespace.so/github-actions/?utm_source=oss&utm_campaign=modrinth) for sponsoring Modrinth's CI.
-
-## Security
-
-If you discover a security vulnerability within our codebase, please follow our [responsible disclosure guidelines](https://modrinth.com/legal/security).
-
-## Support
-
-If you need help with the Modrinth web interface or app, please visit our [support page](https://support.modrinth.com). For general inquiries, you can also join our [Discord server](https://discord.modrinth.com).
-
-## License
-
-All packages in this repository are licensed under their respective licenses. See the [copying guidelines](COPYING.md) for details, including restrictions on Modrinth branding.
+Strata's native launcher additions use GPL-3.0-only; see [LICENSE](LICENSE). The upstream packages and assets retained in this workspace remain subject to their package-specific licenses and notices in [COPYING.md](COPYING.md).
