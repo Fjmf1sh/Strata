@@ -1,0 +1,32 @@
+[package]
+name = "native-ui"
+version = "0.1.0"
+edition.workspace = true
+license = "GPL-3.0-only"
+
+[dependencies]
+chrono.workspace = true
+either.workspace = true
+fontdue = { path = "vendor/fontdue-0.9.3", default-features = false, features = ["simd", "std"] }
+native-backend = { path = "../native-backend" }
+image = { workspace = true, features = ["bmp", "png"] }
+open = "5.4.4"
+pulldown-cmark.workspace = true
+raw-window-handle = "0.6.2"
+theseus = { workspace = true }
+rfd = { version = "0.15.4", default-features = false, features = ["tokio", "xdg-portal"] }
+shlex.workspace = true
+serde_json.workspace = true
+softbuffer = { version = "0.4.8", default-features = false }
+tokio = { workspace = true, features = ["rt-multi-thread", "sync", "time"] }
+uuid = { workspace = true }
+url = { workspace = true }
+urlencoding = { workspace = true }
+winit = "0.30.13"
+
+[target.'cfg(windows)'.dependencies]
+clipboard-win = "5.4.3"
+
+[[bin]]
+name = "native-launcher"
+path = "src/main.rs"

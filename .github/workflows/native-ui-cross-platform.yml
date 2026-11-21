@@ -1,0 +1,58 @@
+name: Native UI cross-platform
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/native-ui-cross-platform.yml'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'packages/app-lib/**'
+      - 'packages/native-backend/**'
+      - 'packages/native-ui/**'
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/native-ui-cross-platform.yml'
+      - 'Cargo.toml'
+      - 'Cargo.lock'
+      - 'packages/app-lib/**'
+      - 'packages/native-backend/**'
+      - 'packages/native-ui/**'
+  workflow_dispatch:
+
+env:
+  CARGO_TERM_COLOR: always
+  SQLX_OFFLINE: true
+
+jobs:
+  native-ui:
+    name: Native UI (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - windows-latest
+          - ubuntu-24.04
+          - macos-15
+    steps:
+      - name: Check out code
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Install Linux window-system development libraries
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            libwayland-dev libxkbcommon-dev libx11-dev libxrandr-dev \
+            libxi-dev libxcursor-dev libxinerama-dev pkg-config
+
+      - name: Set up stable Rust
+        uses: dtolnay/rust-toolchain@b725eda525362e7cf34af9a7243cac1e3f01a7ec # stable
+
+      - name: Check native UI on this operating system
+        run: cargo check --locked -p native-ui
+
+      - name: Run native UI tests on this operating system
+        run: cargo test --locked -p native-ui

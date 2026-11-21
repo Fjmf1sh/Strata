@@ -1,0 +1,34 @@
+[package]
+name = "native-backend"
+version = "0.1.0"
+edition.workspace = true
+license = "GPL-3.0-only"
+
+[dependencies]
+aes-gcm = { workspace = true }
+async-tungstenite = { workspace = true, features = ["tokio-runtime", "tokio-rustls-webpki-roots"] }
+base64 = { workspace = true }
+bytes = { workspace = true }
+dirs = { workspace = true }
+enumset = { workspace = true }
+futures = { workspace = true }
+fs4 = { workspace = true }
+hkdf = { workspace = true }
+p256 = { workspace = true, features = ["ecdh"] }
+rand = { workspace = true }
+reqwest = { workspace = true, features = ["json", "rustls-no-provider"] }
+serde = { workspace = true }
+sha2 = { workspace = true }
+serde_json = { workspace = true }
+sqlx = { workspace = true, features = ["runtime-tokio", "sqlite"] }
+theseus = { workspace = true }
+tempfile = { workspace = true }
+tokio = { workspace = true, features = ["fs", "io-util", "net", "rt", "sync", "time"] }
+uuid = { workspace = true }
+url = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }
+sha1_smol = { workspace = true }
+tokio = { workspace = true, features = ["macros", "rt", "sync", "time"] }
+zip = { workspace = true }
